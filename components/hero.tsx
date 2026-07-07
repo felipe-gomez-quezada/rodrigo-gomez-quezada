@@ -39,7 +39,7 @@ export function Hero() {
           <div className="relative overflow-hidden rounded-lg border-2 border-gold/30 shadow-2xl shadow-navy/10">
             <div className="aspect-[4/5] relative bg-beige">
               <Image
-                src="/images/portrait.svg"
+                src="/images/portrait.jpeg"
                 alt="Rodrigo Gómez Quezada, abogado y tutor de examen de grado"
                 fill
                 className="object-cover"
