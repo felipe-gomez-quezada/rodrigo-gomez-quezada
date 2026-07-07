@@ -10,7 +10,7 @@ export const NAV_LINKS = [
 ] as const;
 
 export const SOCIAL_LINKS = {
-  linkedin: "https://www.linkedin.com/in/rodrigo-gomez-quezada",
+  linkedin: "https://www.linkedin.com/in/rodrigo-gomez-abogado/",
   instagram: "https://www.instagram.com/misiongrado._/",
 } as const;
 

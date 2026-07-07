@@ -60,11 +60,6 @@ export function Footer() {
           <p className="text-sm text-cream/60">
             © 2026 Rodrigo Gómez Quezada. Todos los derechos reservados.
           </p>
-          <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-cream/40">
-            La información contenida en este sitio web tiene fines informativos y
-            no constituye asesoría legal vinculante. Para casos específicos,
-            consulte directamente con un profesional del derecho.
-          </p>
         </div>
       </div>
     </footer>

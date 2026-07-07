@@ -37,14 +37,13 @@ export function Hero() {
 
         <div className="relative mx-auto w-full max-w-md md:max-w-none">
           <div className="relative overflow-hidden rounded-lg border-2 border-gold/30 shadow-2xl shadow-navy/10">
-            <div className="aspect-[4/5] relative bg-beige">
+            <div className="relative bg-beige w-full h-full aspect-[4/5]">
               <Image
                 src="/images/portrait.jpeg"
                 alt="Rodrigo Gómez Quezada, abogado y tutor de examen de grado"
                 fill
                 className="object-cover"
                 priority
-                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>
