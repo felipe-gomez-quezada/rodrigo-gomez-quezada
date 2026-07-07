@@ -7,7 +7,6 @@ export const NAV_LINKS = [
   { label: "Sobre Mí", href: "#sobre-mi" },
   { label: "Servicios", href: "#servicios" },
   { label: "Misión Grado", href: "#mision-grado" },
-  { label: "Testimonios", href: "#testimonios" },
 ] as const;
 
 export const SOCIAL_LINKS = {
@@ -29,10 +28,10 @@ export const TESTIMONIALS = [
     text: "Aprobé a la primera gracias a la paciencia y el rigor de Rodrigo. No solo domina el derecho, sino que sabe enseñarlo con claridad. Cada sesión tenía un objetivo concreto y medible.",
   },
   {
-    name: "Camila Fuentes",
-    university: "Universidad Católica de Valparaíso",
+    name: "María José Olivares",
+    university: "???",
     year: "2025",
-    text: "Tomé tutorías 100% remotas desde Valparaíso y la experiencia fue impecable. Rodrigo detectó mis debilidades en derecho civil y penal con una precisión que ningún otro tutor logró. Totalmente recomendado.",
+    text: "Valoro muchísimo la parte humana de los chicos de Misión Grado. Siempre están ahí para apoyarnos en cualquier imprevisto",
   },
 ] as const;
 
