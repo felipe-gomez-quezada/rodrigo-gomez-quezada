@@ -1,11 +1,8 @@
-export const CALENDAR_URL =
-  process.env.NEXT_PUBLIC_CALENDAR_URL ??
-  "https://calendar.app.google/placeholder";
-
 export const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
   { label: "Sobre Mí", href: "#sobre-mi" },
   { label: "Servicios", href: "#servicios" },
+  { label: "Contacto", href: "#contacto" },
 ] as const;
 
 export const SOCIAL_LINKS = {
@@ -36,22 +33,28 @@ export const TESTIMONIALS = [
 
 export const SERVICES = [
   {
-    title: "Asesoría y Representación en Derecho Civil",
+    title: "Trámites y Gestiones Legales (Presencial y Online)",
     description:
-      "Consultoría jurídica, representación judicial y gestión de trámites en materia civil. Atención presencial en la Región del Maule y asesorías online para clientes en todo Chile.",
+      "Representación y asesoría en Derecho Civil: litigios, posesiones efectivas, contratos y conflictos de arrendamiento en la Región del Maule, con atención online a todo Chile.",
     features: [
-      "Representación judicial en causas civiles",
-      "Consultoría jurídica especializada",
-      "Trámites y gestiones administrativas",
-      "Atención presencial en Talca y online a nivel nacional",
+      "Litigios y representación judicial en causas civiles",
+      "Posesiones efectivas y trámites sucesorios",
+      "Contratos y asesoría preventiva",
+      "Conflictos de arrendamiento en la Región del Maule",
+      "Atención presencial y online a nivel nacional",
     ],
     icon: "building" as const,
   },
-] as const;
-
-export const CONSULTATION_BULLETS = [
-  "Evaluación inicial de tu situación legal",
-  "Orientación sobre las opciones disponibles",
-  "Resolución de dudas sobre tu caso o trámite",
-  "Duración aproximada: 30 minutos",
+  {
+    title: "Tutorías para Examen de Grado",
+    description:
+      "Preparación académica personalizada para el examen de grado, con simulacros de interrogaciones orales y seguimiento individual.",
+    features: [
+      "Plan de estudio adaptado a tu universidad y perfil",
+      "Simulacros de interrogaciones orales",
+      "Retroalimentación detallada y seguimiento continuo",
+      "Metodología rigurosa orientada a la aprobación",
+    ],
+    icon: "video" as const,
+  },
 ] as const;
