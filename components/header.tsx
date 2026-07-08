@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { CALENDAR_URL, NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS } from "@/lib/constants";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,12 +31,10 @@ export function Header() {
             </a>
           ))}
           <a
-            href={CALENDAR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#contacto"
             className="rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
           >
-            Agendar Consulta Legal
+            Cuéntame tu Caso
           </a>
         </nav>
 
@@ -67,13 +65,11 @@ export function Header() {
             ))}
             <li>
               <a
-                href={CALENDAR_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#contacto"
                 onClick={closeMobile}
                 className="inline-block rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
               >
-                Agendar Consulta Legal
+                Cuéntame tu Caso
               </a>
             </li>
           </ul>

@@ -3,7 +3,7 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Services } from "@/components/services";
 import { MisionGrado } from "@/components/mision-grado";
-import { ContactScheduling } from "@/components/contact-scheduling";
+import { ContactForm } from "@/components/contact-form";
 import { Footer } from "@/components/footer";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
         <About />
         <Services />
         <MisionGrado />
-        <ContactScheduling />
+        <ContactForm />
       </main>
       <Footer />
     </>
