@@ -16,7 +16,7 @@ export function Header() {
           href="#inicio"
           className="font-serif text-base font-semibold text-navy md:text-lg"
         >
-          Rodrigo Gómez Quezada{" "}
+          Rodrigo Quezada{" "}
           <span className="text-gold">| Abogado</span>
         </a>
 
@@ -36,7 +36,7 @@ export function Header() {
             rel="noopener noreferrer"
             className="rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
           >
-            Agendar Asesoría
+            Agendar Consulta Legal
           </a>
         </nav>
 
@@ -73,7 +73,7 @@ export function Header() {
                 onClick={closeMobile}
                 className="inline-block rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
               >
-                Agendar Asesoría
+                Agendar Consulta Legal
               </a>
             </li>
           </ul>

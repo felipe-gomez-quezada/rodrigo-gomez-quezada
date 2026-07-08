@@ -8,12 +8,12 @@ export function Hero() {
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2 md:px-8">
         <div className="space-y-6">
           <h1 className="font-serif text-4xl leading-tight text-navy md:text-5xl lg:text-6xl">
-            Prepara tu Examen de Grado con Estrategia y Seguridad.
+            Asesoría Legal Especializada y Representación Civil.
           </h1>
           <p className="text-lg leading-relaxed text-navy/70">
-            Rodrigo Gómez Quezada. Abogado de la Universidad de Talca y Tutor
-            Fundador de Misión Grado. Consultas 100% online para todo Chile y
-            gestiones presenciales en la Región del Maule.
+            Rodrigo Quezada. Abogado especializado en Derecho Civil brindando
+            representación en la Región del Maule y asesorías online a todo
+            Chile. Tutor fundador de Misión Grado.
           </p>
           <div className="flex flex-col gap-4 pt-2 sm:flex-row">
             <a
@@ -30,7 +30,7 @@ export function Hero() {
               className="inline-flex items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
             >
               <CalendarCheck className="h-4 w-4" />
-              Agendar Hora
+              Agendar Consulta Legal
             </a>
           </div>
         </div>
@@ -40,10 +40,11 @@ export function Hero() {
             <div className="relative bg-beige w-full h-full aspect-[4/5]">
               <Image
                 src="/images/portrait.jpeg"
-                alt="Rodrigo Gómez Quezada, abogado y tutor de examen de grado"
+                alt="Rodrigo Quezada, abogado especializado en Derecho Civil"
                 fill
                 className="object-cover"
                 priority
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
           </div>

@@ -9,12 +9,12 @@ const highlights = [
   {
     icon: MapPin,
     title: "Ejercicio profesional",
-    text: "Residencia y práctica en Talca, Región del Maule.",
+    text: "Más de 5 años de experiencia en Derecho Civil. Práctica en Talca, Región del Maule.",
   },
   {
     icon: Scale,
     title: "Especialización",
-    text: "Preparación de examen de grado y gestiones legales.",
+    text: "Asesoría, representación judicial y gestiones en materia civil.",
   },
 ];
 
@@ -30,26 +30,29 @@ export function About() {
         <div className="grid gap-12 lg:grid-cols-2">
           <div className="space-y-5 text-navy/80 leading-relaxed">
             <p>
-              Soy abogado egresado de la Universidad de Talca, con ejercicio
-              profesional en la ciudad de Talca, Región del Maule. Mi trayectoria
-              combina la práctica jurídica con una vocación docente que me ha
-              llevado a dedicarme de forma integral a la preparación de futuros
-              abogados para el examen de grado.
+              Soy abogado egresado de la Universidad de Talca, con más de cinco
+              años de experiencia en Derecho Civil. Mi práctica se centra en la
+              asesoría jurídica, la representación judicial y la gestión de
+              trámites para personas y empresas en la Región del Maule, con
+              asesorías online disponibles para clientes en todo Chile.
             </p>
             <p>
-              A lo largo de los años he desarrollado una metodología propia de
-              enseñanza que prioriza la comprensión profunda del derecho, la
-              argumentación oral y la simulación de condiciones reales de examen.
-              Mi enfoque es exigente y estructurado, orientado a que cada
-              estudiante llegue al día de la prueba con seguridad y dominio de las
-              materias evaluadas.
+              Mi enfoque combina rigor técnico con una atención cercana: cada
+              caso se analiza con estrategia, claridad y compromiso con los
+              intereses de quien confía en mi representación. Trabajo para que
+              cada cliente comprenda sus opciones y tome decisiones informadas
+              en cada etapa del proceso.
             </p>
             <p>
-              Como Tutor Fundador de Misión Grado, he acompañado a cientos de
-              estudiantes de diversas universidades del país, logrando tasas de
-              aprobación que respaldan la efectividad de un método basado en la
-              preparación estratégica, la retroalimentación constante y el
-              compromiso con el éxito de cada alumno.
+              Además, soy fundador de{" "}
+              <a
+                href="#mision-grado"
+                className="font-medium text-navy underline decoration-gold/50 underline-offset-2 transition-colors hover:text-gold"
+              >
+                Misión Grado
+              </a>
+              , academia de preparación para el examen de grado — un proyecto que
+              refuerza mi dominio del derecho y mi vocación docente.
             </p>
           </div>
 

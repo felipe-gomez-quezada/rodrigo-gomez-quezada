@@ -6,12 +6,12 @@ export function ContactScheduling() {
     <section id="contacto" className="bg-cream py-16 md:py-24">
       <div className="mx-auto max-w-3xl px-6 text-center md:px-8">
         <h2 className="font-serif text-3xl text-navy md:text-4xl">
-          Agenda tu Asesoría
+          Agenda tu Consulta Legal
         </h2>
         <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
         <p className="mx-auto mt-4 max-w-xl text-navy/70">
-          Reserva una sesión inicial para evaluar tu nivel de preparación y
-          definir un plan de estudio adaptado a tus objetivos.
+          Reserva una primera consulta para evaluar tu situación legal y recibir
+          orientación sobre los pasos a seguir.
         </p>
 
         <div className="mx-auto mt-10 max-w-md rounded-lg border border-navy/10 bg-beige p-8 text-left shadow-sm">
@@ -29,7 +29,7 @@ export function ContactScheduling() {
 
           <div className="mt-6 flex items-center gap-2 text-sm text-navy/60">
             <Clock className="h-4 w-4 text-gold" />
-            Modalidad online vía videollamada
+            Presencial en Talca u online vía videollamada
           </div>
         </div>
 
@@ -40,7 +40,7 @@ export function ContactScheduling() {
           className="mt-10 inline-flex items-center justify-center gap-2 rounded-md bg-gold px-8 py-4 text-base font-semibold text-navy shadow-lg shadow-gold/20 transition-colors hover:bg-gold-light"
         >
           <Calendar className="h-5 w-5" />
-          Reservar Cita en Google Calendar
+          Reservar Consulta Legal
         </a>
       </div>
     </section>

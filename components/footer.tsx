@@ -8,10 +8,10 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <p className="font-serif text-xl font-semibold text-gold">
-              Rodrigo Gómez Quezada
+              Rodrigo Quezada
             </p>
             <p className="mt-2 text-sm text-cream/70">
-              Abogado · Tutor de Examen de Grado · Talca, Región del Maule
+              Abogado · Derecho Civil · Talca, Región del Maule
             </p>
           </div>
 
@@ -58,7 +58,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-cream/10 pt-8 text-center">
           <p className="text-sm text-cream/60">
-            © 2026 Rodrigo Gómez Quezada. Todos los derechos reservados.
+            © 2026 Rodrigo Quezada. Todos los derechos reservados.
           </p>
         </div>
       </div>

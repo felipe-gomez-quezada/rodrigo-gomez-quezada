@@ -4,14 +4,14 @@ import { SOCIAL_LINKS } from "@/lib/constants";
 
 export function MisionGrado() {
   return (
-    <section id="mision-grado" className="bg-navy py-16 text-cream md:py-24">
+    <section id="mision-grado" className="bg-navy py-12 text-cream md:py-16">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          <div className="space-y-6">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="space-y-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-gold">
-              Plataforma de preparación
+              Proyecto académico
             </p>
-            <h2 className="font-serif text-3xl md:text-4xl">
+            <h2 className="font-serif text-2xl md:text-3xl">
               Misión Grado
             </h2>
             <p className="leading-relaxed text-cream/80">

@@ -6,7 +6,6 @@ export const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
   { label: "Sobre Mí", href: "#sobre-mi" },
   { label: "Servicios", href: "#servicios" },
-  { label: "Misión Grado", href: "#mision-grado" },
 ] as const;
 
 export const SOCIAL_LINKS = {
@@ -37,34 +36,22 @@ export const TESTIMONIALS = [
 
 export const SERVICES = [
   {
-    title: "Tutorías para Examen de Grado (100% Remoto)",
+    title: "Asesoría y Representación en Derecho Civil",
     description:
-      "Preparación personalizada para el examen de grado con enfoque estratégico. Incluye plan de estudio adaptado, repaso de materias clave e interrogaciones simuladas con retroalimentación detallada.",
+      "Consultoría jurídica, representación judicial y gestión de trámites en materia civil. Atención presencial en la Región del Maule y asesorías online para clientes en todo Chile.",
     features: [
-      "Plan de estudio personalizado",
-      "Interrogaciones orales simuladas",
-      "Cobertura en todo Chile",
-      "Seguimiento continuo del progreso",
-    ],
-    icon: "video" as const,
-  },
-  {
-    title: "Trámites y Gestiones Legales (Presencial - Talca)",
-    description:
-      "Representación judicial, consultoría jurídica y gestión de trámites administrativos en la Región del Maule. Atención profesional y cercana para personas y empresas.",
-    features: [
-      "Representación judicial local",
+      "Representación judicial en causas civiles",
       "Consultoría jurídica especializada",
-      "Trámites administrativos",
-      "Atención presencial en Talca",
+      "Trámites y gestiones administrativas",
+      "Atención presencial en Talca y online a nivel nacional",
     ],
     icon: "building" as const,
   },
 ] as const;
 
 export const CONSULTATION_BULLETS = [
-  "Evaluación inicial de tu nivel de preparación",
-  "Recomendaciones personalizadas de estudio",
-  "Resolución de dudas sobre el proceso del examen",
+  "Evaluación inicial de tu situación legal",
+  "Orientación sobre las opciones disponibles",
+  "Resolución de dudas sobre tu caso o trámite",
   "Duración aproximada: 30 minutos",
 ] as const;

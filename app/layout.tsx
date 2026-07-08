@@ -13,9 +13,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Rodrigo Gómez Quezada | Abogado y Tutor Examen de Grado",
+  title: "Rodrigo Quezada | Abogado — Derecho Civil",
   description:
-    "Preparación estratégica para el Examen de Grado en Derecho. Tutorías 100% online en todo Chile y gestiones legales presenciales en Talca, Región del Maule.",
+    "Asesoría legal especializada y representación civil en la Región del Maule. Consultas online a todo Chile. Abogado con 5 años de experiencia en Derecho Civil.",
 };
 
 export default function RootLayout({
