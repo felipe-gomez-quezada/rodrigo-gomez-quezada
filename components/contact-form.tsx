@@ -76,8 +76,8 @@ export function ContactForm() {
     formState: { errors },
   } = useForm<ContactFormInput, unknown, ContactFormData>({
     resolver: zodResolver(contactSchema),
-    mode: "onBlur",
-    reValidateMode: "onBlur",
+    mode: "onTouched",
+    reValidateMode: "onChange",
     defaultValues: {
       nombre: "",
       telefono: undefined,

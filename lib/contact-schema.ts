@@ -22,9 +22,7 @@ export const contactSchema = z.object({
     .string()
     .trim()
     .min(1, REQUIRED_MESSAGE)
-    .pipe(
-      z.string().email("Por favor, introduce un correo electrónico válido"),
-    ),
+    .email("Por favor, introduce un correo electrónico válido"),
   mensaje: z.string().trim().optional(),
 });
 
