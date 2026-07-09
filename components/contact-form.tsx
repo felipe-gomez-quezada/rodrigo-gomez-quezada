@@ -1,11 +1,15 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { submitContactRequest } from "@/app/actions";
+import { PhoneInputField } from "@/components/phone-input-field";
 import {
   contactSchema,
   initialContactFormState,
   type ContactFormData,
+  type ContactFormInput,
 } from "@/lib/contact-schema";
 
 function SubmitButton({ disabled }: { disabled: boolean }) {
@@ -13,11 +17,50 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex w-full items-center justify-center rounded-md bg-teal px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-teal-dark disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+      className="inline-flex w-full items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
     >
       Enviar &gt;
     </button>
   );
+}
+
+type FormFieldProps = {
+  id: keyof ContactFormInput;
+  label: string;
+  required?: boolean;
+  error?: string;
+  children: React.ReactNode;
+};
+
+function FormField({ id, label, required, error, children }: FormFieldProps) {
+  const hasError = Boolean(error);
+
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className={`mb-1.5 block text-sm font-medium ${
+          hasError ? "text-red-500" : "text-navy"
+        }`}
+      >
+        {label}
+        {required ? <span className="text-red-500"> *</span> : null}
+      </label>
+      {children}
+      {hasError ? (
+        <p className="mt-1 text-sm text-red-500">{error}</p>
+      ) : null}
+    </div>
+  );
+}
+
+const inputBaseClass =
+  "w-full rounded-md border px-4 py-2.5 text-navy outline-none transition-colors focus:ring-2";
+
+function inputClassName(hasError: boolean) {
+  return hasError
+    ? `${inputBaseClass} border-red-500 focus:border-red-500 focus:ring-red-500/20`
+    : `${inputBaseClass} border-navy/20 focus:border-gold focus:ring-gold/20`;
 }
 
 export function ContactForm() {
@@ -25,47 +68,35 @@ export function ContactForm() {
     submitContactRequest,
     initialContactFormState,
   );
-  const [clientErrors, setClientErrors] = useState<
-    Partial<Record<keyof ContactFormData, string>>
-  >({});
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    const formData = new FormData(event.currentTarget);
-    const raw = {
-      nombre: String(formData.get("nombre") ?? ""),
-      telefono: String(formData.get("telefono") ?? ""),
-      email: String(formData.get("email") ?? ""),
-      mensaje: String(formData.get("mensaje") ?? ""),
-    };
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ContactFormInput, unknown, ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: "onBlur",
+    reValidateMode: "onBlur",
+    defaultValues: {
+      nombre: "",
+      telefono: undefined,
+      email: "",
+      mensaje: "",
+    },
+  });
 
-    const parsed = contactSchema.safeParse(raw);
-    if (!parsed.success) {
-      event.preventDefault();
-      const errors: Partial<Record<keyof ContactFormData, string>> = {};
-      for (const issue of parsed.error.issues) {
-        const field = issue.path[0];
-        if (
-          field === "nombre" ||
-          field === "telefono" ||
-          field === "email" ||
-          field === "mensaje"
-        ) {
-          errors[field] = issue.message;
-        }
-      }
-      setClientErrors(errors);
-      return;
-    }
+  const getFieldError = (field: keyof ContactFormInput) =>
+    errors[field]?.message ?? state.fieldErrors?.[field];
 
-    setClientErrors({});
-  };
-
-  const fieldErrors = {
-    nombre: clientErrors.nombre ?? state.fieldErrors?.nombre,
-    telefono: clientErrors.telefono ?? state.fieldErrors?.telefono,
-    email: clientErrors.email ?? state.fieldErrors?.email,
-    mensaje: clientErrors.mensaje ?? state.fieldErrors?.mensaje,
-  };
+  const onSubmit = handleSubmit((data) => {
+    const formData = new FormData();
+    formData.append("nombre", data.nombre);
+    formData.append("telefono", data.telefono);
+    formData.append("email", data.email);
+    formData.append("mensaje", data.mensaje ?? "");
+    formAction(formData);
+  });
 
   return (
     <section
@@ -88,7 +119,7 @@ export function ContactForm() {
           {state.success ? (
             <div
               role="status"
-              className="rounded-lg border border-teal/30 bg-teal/5 px-4 py-3 text-sm text-navy"
+              className="rounded-lg border border-gold/30 bg-gold/5 px-4 py-3 text-sm text-navy"
             >
               Tu mensaje fue enviado correctamente. Me pondré en contacto
               contigo a la brevedad.
@@ -104,93 +135,63 @@ export function ContactForm() {
                 </div>
               ) : null}
 
-              <form
-                action={formAction}
-                onSubmit={handleSubmit}
-                noValidate
-                className="space-y-5"
-              >
-            <div>
-              <label
-                htmlFor="nombre"
-                className="mb-1.5 block text-sm font-medium text-navy"
-              >
-                Nombre <span className="text-red-600">*</span>
-              </label>
-              <input
-                id="nombre"
-                name="nombre"
-                type="text"
-                required
-                autoComplete="name"
-                className="w-full rounded-md border border-navy/20 px-4 py-2.5 text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
-              />
-              {fieldErrors.nombre ? (
-                <p className="mt-1 text-sm text-red-600">{fieldErrors.nombre}</p>
-              ) : null}
-            </div>
+              <form onSubmit={onSubmit} noValidate className="space-y-5">
+                <FormField
+                  id="nombre"
+                  label="Nombre"
+                  required
+                  error={getFieldError("nombre")}
+                >
+                  <input
+                    id="nombre"
+                    type="text"
+                    autoComplete="name"
+                    className={inputClassName(Boolean(getFieldError("nombre")))}
+                    {...register("nombre")}
+                  />
+                </FormField>
 
-            <div>
-              <label
-                htmlFor="telefono"
-                className="mb-1.5 block text-sm font-medium text-navy"
-              >
-                Teléfono <span className="text-red-600">*</span>
-              </label>
-              <input
-                id="telefono"
-                name="telefono"
-                type="text"
-                required
-                autoComplete="tel"
-                className="w-full rounded-md border border-navy/20 px-4 py-2.5 text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
-              />
-              {fieldErrors.telefono ? (
-                <p className="mt-1 text-sm text-red-600">
-                  {fieldErrors.telefono}
-                </p>
-              ) : null}
-            </div>
+                <FormField
+                  id="telefono"
+                  label="Teléfono"
+                  required
+                  error={getFieldError("telefono")}
+                >
+                  <PhoneInputField
+                    name="telefono"
+                    control={control}
+                    hasError={Boolean(getFieldError("telefono"))}
+                    disabled={isPending}
+                  />
+                </FormField>
 
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-1.5 block text-sm font-medium text-navy"
-              >
-                E-mail <span className="text-red-600">*</span>
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                autoComplete="email"
-                className="w-full rounded-md border border-navy/20 px-4 py-2.5 text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
-              />
-              {fieldErrors.email ? (
-                <p className="mt-1 text-sm text-red-600">{fieldErrors.email}</p>
-              ) : null}
-            </div>
+                <FormField
+                  id="email"
+                  label="E-mail"
+                  required
+                  error={getFieldError("email")}
+                >
+                  <input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    className={inputClassName(Boolean(getFieldError("email")))}
+                    {...register("email")}
+                  />
+                </FormField>
 
-            <div>
-              <label
-                htmlFor="mensaje"
-                className="mb-1.5 block text-sm font-medium text-navy"
-              >
-                Mensaje
-              </label>
-              <textarea
-                id="mensaje"
-                name="mensaje"
-                rows={4}
-                className="w-full resize-y rounded-md border border-navy/20 px-4 py-2.5 text-navy outline-none transition-colors focus:border-teal focus:ring-2 focus:ring-teal/20"
-              />
-              {fieldErrors.mensaje ? (
-                <p className="mt-1 text-sm text-red-600">
-                  {fieldErrors.mensaje}
-                </p>
-              ) : null}
-            </div>
+                <FormField
+                  id="mensaje"
+                  label="Mensaje"
+                  error={getFieldError("mensaje")}
+                >
+                  <textarea
+                    id="mensaje"
+                    rows={4}
+                    className={`${inputClassName(Boolean(getFieldError("mensaje")))} resize-y`}
+                    {...register("mensaje")}
+                  />
+                </FormField>
 
                 <SubmitButton disabled={isPending} />
               </form>
