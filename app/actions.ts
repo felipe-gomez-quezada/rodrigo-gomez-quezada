@@ -27,6 +27,83 @@ function getFieldErrors(
   return fieldErrors;
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+async function sendContactNotification({
+  nombre,
+  telefono,
+  email,
+  mensaje,
+}: {
+  nombre: string;
+  telefono: string;
+  email: string;
+  mensaje?: string;
+}) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const fromEmail = process.env.RESEND_FROM_EMAIL;
+  const notificationEmail = process.env.NOTIFICATION_EMAIL;
+
+  if (!resendApiKey || !fromEmail || !notificationEmail) {
+    console.error(
+      "Resend no configurado. Faltan variables:",
+      {
+        RESEND_API_KEY: Boolean(resendApiKey),
+        RESEND_FROM_EMAIL: Boolean(fromEmail),
+        NOTIFICATION_EMAIL: Boolean(notificationEmail),
+      },
+    );
+    return { sent: false, reason: "missing_env" as const };
+  }
+
+  const resend = new Resend(resendApiKey);
+  const timestamp = new Date().toLocaleString("es-CL", {
+    timeZone: "America/Santiago",
+  });
+
+  const { data, error } = await resend.emails.send({
+    from: fromEmail,
+    to: notificationEmail,
+    replyTo: email,
+    subject: `Nuevo contacto — ${nombre}`,
+    html: `
+      <h2>Nuevo mensaje de contacto</h2>
+      <p><strong>Nombre:</strong> ${escapeHtml(nombre)}</p>
+      <p><strong>Teléfono:</strong> ${escapeHtml(telefono)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <p><strong>Mensaje:</strong></p>
+      <p>${mensaje ? escapeHtml(mensaje).replace(/\n/g, "<br>") : "<em>Sin mensaje</em>"}</p>
+      <hr>
+      <p><small>Recibido el ${escapeHtml(timestamp)}</small></p>
+    `,
+  });
+
+  if (error) {
+    console.error("Resend rechazó el envío:", {
+      message: error.message,
+      name: error.name,
+      fromEmail,
+      notificationEmail,
+    });
+    return { sent: false, reason: "resend_error" as const, details: error.message };
+  }
+
+  if (!data?.id) {
+    console.error("Resend no devolvió ID de envío:", { data, fromEmail, notificationEmail });
+    return { sent: false, reason: "missing_message_id" as const };
+  }
+
+  console.info("Correo de contacto enviado con Resend:", data.id);
+  return { sent: true, messageId: data.id };
+}
+
 export async function submitContactRequest(
   _prevState: ContactFormState,
   formData: FormData,
@@ -48,17 +125,23 @@ export async function submitContactRequest(
   }
 
   const { nombre, telefono, email, mensaje } = parsed.data;
+  const supabase = createServerSupabaseClient();
 
+  let contactId: string;
   try {
-    const supabase = createServerSupabaseClient();
-    const { error: dbError } = await supabase.from("contact_requests").insert({
-      nombre,
-      telefono,
-      email,
-      mensaje: mensaje || null,
-    });
+    const { data: inserted, error: dbError } = await supabase
+      .from("contact_requests")
+      .insert({
+        nombre,
+        telefono,
+        email,
+        mensaje: mensaje || null,
+        correo_enviado: false,
+      })
+      .select("id")
+      .single();
 
-    if (dbError) {
+    if (dbError || !inserted) {
       console.error("Error al guardar contacto en Supabase:", dbError);
       return {
         success: false,
@@ -66,6 +149,8 @@ export async function submitContactRequest(
           "No pudimos enviar tu mensaje en este momento. Intenta nuevamente más tarde.",
       };
     }
+
+    contactId = inserted.id;
   } catch (error) {
     console.error("Error de configuración de Supabase:", error);
     return {
@@ -75,39 +160,25 @@ export async function submitContactRequest(
     };
   }
 
-  const resendApiKey = process.env.RESEND_API_KEY;
-  const fromEmail = process.env.RESEND_FROM_EMAIL;
-  const notificationEmail = process.env.NOTIFICATION_EMAIL;
+  const emailResult = await sendContactNotification({
+    nombre,
+    telefono,
+    email,
+    mensaje,
+  });
 
-  if (resendApiKey && fromEmail && notificationEmail) {
-    try {
-      const resend = new Resend(resendApiKey);
-      const timestamp = new Date().toLocaleString("es-CL", {
-        timeZone: "America/Santiago",
-      });
+  if (emailResult.sent) {
+    const { error: updateError } = await supabase
+      .from("contact_requests")
+      .update({ correo_enviado: true })
+      .eq("id", contactId);
 
-      await resend.emails.send({
-        from: fromEmail,
-        to: notificationEmail,
-        subject: `Nuevo contacto — ${nombre}`,
-        html: `
-          <h2>Nuevo mensaje de contacto</h2>
-          <p><strong>Nombre:</strong> ${nombre}</p>
-          <p><strong>Teléfono:</strong> ${telefono}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Mensaje:</strong></p>
-          <p>${mensaje ? mensaje.replace(/\n/g, "<br>") : "<em>Sin mensaje</em>"}</p>
-          <hr>
-          <p><small>Recibido el ${timestamp}</small></p>
-        `,
-      });
-    } catch (error) {
-      console.error("Error al enviar notificación por Resend:", error);
+    if (updateError) {
+      console.error(
+        "Correo enviado, pero no se pudo actualizar correo_enviado:",
+        updateError,
+      );
     }
-  } else {
-    console.warn(
-      "Variables de Resend no configuradas; el contacto se guardó sin notificación por email.",
-    );
   }
 
   return {

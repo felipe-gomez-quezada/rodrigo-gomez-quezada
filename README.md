@@ -29,7 +29,7 @@ Abrir [http://localhost:3000](http://localhost:3000).
 | `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
 | `SUPABASE_SERVICE_ROLE_KEY` | Service role key (solo servidor) |
 | `RESEND_API_KEY` | API key de Resend |
-| `RESEND_FROM_EMAIL` | Email remitente verificado en Resend |
+| `RESEND_FROM_EMAIL` | Remitente verificado en Resend (no usar Gmail sin verificar) |
 | `NOTIFICATION_EMAIL` | Email donde Rodrigo recibe notificaciones |
 
 ## Base de datos
