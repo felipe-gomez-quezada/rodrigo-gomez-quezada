@@ -55,6 +55,11 @@ export type ContactFormState = {
   success: boolean;
   error?: string;
   fieldErrors?: Partial<Record<keyof ContactFormData, string>>;
+  submitted?: {
+    nombre: string;
+    telefono: string;
+    email: string;
+  };
 };
 
 export const initialContactFormState: ContactFormState = {

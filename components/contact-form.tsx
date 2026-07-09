@@ -3,6 +3,7 @@
 import { useActionState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { formatPhoneNumberIntl } from "react-phone-number-input";
 import { submitContactRequest } from "@/app/actions";
 import { PhoneInputField } from "@/components/phone-input-field";
 import {
@@ -121,7 +122,30 @@ export function ContactForm() {
         </div>
 
         <div className="rounded-xl bg-white p-8 shadow-2xl shadow-navy/20">
-          {state.success ? (
+          {state.success && state.submitted ? (
+            <div
+              role="status"
+              className="space-y-3 rounded-lg border border-gold/30 bg-gold/5 px-4 py-4 text-sm leading-relaxed text-navy"
+            >
+              <p>
+                Gracias,{" "}
+                <span className="font-semibold">{state.submitted.nombre}</span>.
+                Tu solicitud fue enviada correctamente.
+              </p>
+              <p>
+                Mantente atento a tu teléfono{" "}
+                <span className="font-semibold">
+                  {formatPhoneNumberIntl(state.submitted.telefono) ||
+                    state.submitted.telefono}
+                </span>{" "}
+                y a tu correo{" "}
+                <span className="font-semibold">{state.submitted.email}</span>.
+              </p>
+              <p>
+                Me pondré en contacto contigo a la brevedad.
+              </p>
+            </div>
+          ) : state.success ? (
             <div
               role="status"
               className="rounded-lg border border-gold/30 bg-gold/5 px-4 py-3 text-sm text-navy"

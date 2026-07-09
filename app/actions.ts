@@ -110,5 +110,8 @@ export async function submitContactRequest(
     );
   }
 
-  return { success: true };
+  return {
+    success: true,
+    submitted: { nombre, telefono, email },
+  };
 }
