@@ -51,7 +51,8 @@ export function About() {
               >
                 Misión Grado
               </a>
-              , academia de preparación para el examen de grado — un proyecto que
+              , academia de preparación para el examen de grado en la que he
+              preparado a cientos de estudiantes de derecho — un proyecto que
               refuerza mi dominio del derecho y mi vocación docente.
             </p>
           </div>

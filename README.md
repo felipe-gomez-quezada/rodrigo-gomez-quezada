@@ -1,12 +1,14 @@
-# Rodrigo Gómez Quezada — Sitio Personal
+# Rodrigo Quezada — Sitio Personal
 
-Landing page estática para Rodrigo Gómez Quezada, abogado y tutor de examen de grado.
+Landing page para Rodrigo Quezada, abogado especializado en Derecho Civil y tutor de examen de grado.
 
 ## Stack
 
 - Next.js 16 (App Router)
 - TypeScript
 - Tailwind CSS
+- Supabase (formulario de contacto)
+- Resend (notificaciones por email)
 - Lucide React
 
 ## Desarrollo local
@@ -14,7 +16,7 @@ Landing page estática para Rodrigo Gómez Quezada, abogado y tutor de examen de
 ```bash
 npm install
 cp .env.local.example .env.local
-# Editar NEXT_PUBLIC_CALENDAR_URL con el enlace real de Google Calendar
+# Configurar variables de Supabase y Resend
 npm run dev
 ```
 
@@ -24,17 +26,41 @@ Abrir [http://localhost:3000](http://localhost:3000).
 
 | Variable | Descripción |
 |----------|-------------|
-| `NEXT_PUBLIC_CALENDAR_URL` | URL de Google Calendar para agendar asesorías |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (solo servidor) |
+| `RESEND_API_KEY` | API key de Resend |
+| `RESEND_FROM_EMAIL` | Remitente verificado en Resend (no usar Gmail sin verificar) |
+| `NOTIFICATION_EMAIL` | Email donde Rodrigo recibe notificaciones |
+
+## Base de datos
+
+Proyecto Supabase: **rodrigo-quezada** (`fbcxkyzftywcuhugwxbs`)
+
+Dashboard: https://supabase.com/dashboard/project/fbcxkyzftywcuhugwxbs
+
+La migración `supabase/migrations/20260308230000_create_contact_requests.sql` crea la tabla `contact_requests` con RLS habilitado.
+
+Para aplicar migraciones en remoto:
+
+```bash
+supabase link --project-ref fbcxkyzftywcuhugwxbs
+supabase db push
+```
+
+### MCP de Supabase en Cursor
+
+El plugin está configurado en [`.cursor/mcp.json`](.cursor/mcp.json). Si no aparece en el chat, habilítalo en **Cursor Settings → MCP** y autentícate con Supabase.
 
 ## Estructura
 
 ```
-app/           → layout, page, estilos globales
+app/           → layout, page, actions, estilos globales
 components/    → secciones modulares (Header, Hero, About, etc.)
-lib/           → constantes y datos estáticos
-public/images/ → assets (reemplazar portrait.svg con foto real)
+lib/           → constantes, validación y cliente Supabase
+supabase/      → scripts SQL
+public/images/ → assets
 ```
 
 ## Despliegue
 
-Compatible con Vercel. Configurar `NEXT_PUBLIC_CALENDAR_URL` en las variables de entorno del proyecto.
+Compatible con Vercel. Configurar todas las variables de entorno en el proyecto.

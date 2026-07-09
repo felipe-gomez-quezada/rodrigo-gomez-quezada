@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { ArrowRight, CalendarCheck } from "lucide-react";
-import { CALENDAR_URL } from "@/lib/constants";
+import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
@@ -24,13 +23,10 @@ export function Hero() {
               <ArrowRight className="h-4 w-4" />
             </a>
             <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#contacto"
               className="inline-flex items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
             >
-              <CalendarCheck className="h-4 w-4" />
-              Agendar Consulta Legal
+              Solicitar Evaluación Legal
             </a>
           </div>
         </div>

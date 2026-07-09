@@ -20,7 +20,7 @@ export function Services() {
           </p>
         </div>
 
-        <div className="mx-auto max-w-2xl">
+        <div className="grid gap-8 md:grid-cols-2">
           {SERVICES.map((service) => {
             const Icon = iconMap[service.icon];
             const SecondaryIcon =

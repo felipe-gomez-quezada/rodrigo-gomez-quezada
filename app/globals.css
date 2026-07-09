@@ -7,6 +7,8 @@
   --gold-light: #d4b87a;
   --beige: #f7f3ec;
   --cream: #fdfcfa;
+  --teal: #0d9488;
+  --teal-dark: #0f766e;
   --background: var(--cream);
   --foreground: var(--navy);
 }
@@ -18,6 +20,8 @@
   --color-gold-light: var(--gold-light);
   --color-beige: var(--beige);
   --color-cream: var(--cream);
+  --color-teal: var(--teal);
+  --color-teal-dark: var(--teal-dark);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
@@ -31,5 +35,45 @@
 
   body {
     @apply bg-cream text-navy font-sans antialiased;
+  }
+
+  .phone-input {
+    --PhoneInput-color--focus: var(--gold);
+    --PhoneInputCountrySelectArrow-color--focus: var(--gold);
+    --PhoneInputCountryFlag-borderColor--focus: var(--gold);
+
+    @apply flex w-full items-stretch overflow-hidden rounded-md border border-navy/20 bg-white transition-colors;
+  }
+
+  .phone-input:focus-within {
+    @apply border-gold ring-2 ring-gold/20;
+  }
+
+  .phone-input--error {
+    @apply border-red-500;
+  }
+
+  .phone-input--error:focus-within {
+    @apply border-red-500 ring-2 ring-red-500/20;
+  }
+
+  .phone-input .PhoneInputCountry {
+    @apply shrink-0 self-stretch border-r border-navy/20 bg-cream/40 px-3;
+  }
+
+  .phone-input .PhoneInputCountrySelect {
+    @apply h-full cursor-pointer bg-transparent py-2.5 pr-2 text-sm text-navy outline-none;
+  }
+
+  .phone-input .PhoneInputCountryIcon {
+    @apply mr-2;
+  }
+
+  .phone-input .PhoneInputInput {
+    @apply min-w-0 flex-1 border-0 bg-transparent px-4 py-2.5 text-navy outline-none;
+  }
+
+  .phone-input .PhoneInputInput::placeholder {
+    @apply text-navy/40;
   }
 }
