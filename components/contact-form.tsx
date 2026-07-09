@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { submitContactRequest } from "@/app/actions";
@@ -64,10 +64,12 @@ function inputClassName(hasError: boolean) {
 }
 
 export function ContactForm() {
-  const [state, formAction, isPending] = useActionState(
+  const [state, formAction, isActionPending] = useActionState(
     submitContactRequest,
     initialContactFormState,
   );
+  const [isTransitionPending, startTransition] = useTransition();
+  const isPending = isActionPending || isTransitionPending;
 
   const {
     register,
@@ -95,7 +97,10 @@ export function ContactForm() {
     formData.append("telefono", data.telefono);
     formData.append("email", data.email);
     formData.append("mensaje", data.mensaje ?? "");
-    formAction(formData);
+
+    startTransition(() => {
+      formAction(formData);
+    });
   });
 
   return (
