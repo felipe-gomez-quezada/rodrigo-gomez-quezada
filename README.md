@@ -34,11 +34,22 @@ Abrir [http://localhost:3000](http://localhost:3000).
 
 ## Base de datos
 
-Ejecutar el script SQL en Supabase:
+Proyecto Supabase: **rodrigo-quezada** (`fbcxkyzftywcuhugwxbs`)
 
+Dashboard: https://supabase.com/dashboard/project/fbcxkyzftywcuhugwxbs
+
+La migración `supabase/migrations/20260308230000_create_contact_requests.sql` crea la tabla `contact_requests` con RLS habilitado.
+
+Para aplicar migraciones en remoto:
+
+```bash
+supabase link --project-ref fbcxkyzftywcuhugwxbs
+supabase db push
 ```
-supabase/contact_requests.sql
-```
+
+### MCP de Supabase en Cursor
+
+El plugin está configurado en [`.cursor/mcp.json`](.cursor/mcp.json). Si no aparece en el chat, habilítalo en **Cursor Settings → MCP** y autentícate con Supabase.
 
 ## Estructura
 
