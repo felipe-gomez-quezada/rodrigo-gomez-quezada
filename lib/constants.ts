@@ -1,14 +1,57 @@
+export const FIRM_NAME = "Quezada y Suárez Abogados";
+
+export const FIRM_TAGLINE = "Derecho Civil · Talca, Región del Maule";
+
+export const PARTNERS = [
+  {
+    id: "rodrigo",
+    fullName: "Rodrigo Ignacio Gómez Quezada",
+    shortName: "Rodrigo Quezada",
+    title: "Abogado",
+    university: "Universidad de Talca",
+    specialization: "Derecho Civil",
+    yearsExperience: "5+",
+    image: "/images/Rodrigo.webp",
+    imageAlt:
+      "Rodrigo Ignacio Gómez Quezada, abogado especializado en Derecho Civil",
+    linkedin: "https://www.linkedin.com/in/rodrigo-gomez-abogado/",
+    bio: "Egresado de la Universidad de Talca con más de cinco años de experiencia en Derecho Civil. Su práctica se centra en asesoría jurídica, representación judicial y gestión de trámites para personas y empresas en la Región del Maule, con asesorías online a todo Chile.",
+  },
+  {
+    id: "ignacia",
+    fullName: "María Ignacia Suárez Sanhueza",
+    shortName: "María Ignacia Suárez",
+    title: "Abogada",
+    university: "Universidad de Talca",
+    specialization: "Derecho Civil",
+    yearsExperience: "3+",
+    image: "/images/Ignacia.webp",
+    imageAlt:
+      "María Ignacia Suárez Sanhueza, abogada especializada en Derecho Civil",
+    linkedin:
+      "https://www.linkedin.com/in/mar%C3%ADa-ignacia-su%C3%A1rez-sanhueza-8ab6aa230/",
+    bio: "Egresada de la Universidad de Talca con más de tres años de experiencia en Derecho Civil. Su enfoque combina rigor técnico con atención cercana, trabajando para que cada cliente comprenda sus opciones y tome decisiones informadas en cada etapa del proceso.",
+  },
+] as const;
+
+export type Partner = (typeof PARTNERS)[number];
+
 export const NAV_LINKS = [
   { label: "Inicio", href: "#inicio" },
-  { label: "Sobre Mí", href: "#sobre-mi" },
+  { label: "Sobre Nosotros", href: "#sobre-nosotros" },
   { label: "Servicios", href: "#servicios" },
   { label: "Contacto", href: "#contacto" },
 ] as const;
 
 export const SOCIAL_LINKS = {
-  linkedin: "https://www.linkedin.com/in/rodrigo-gomez-abogado/",
   instagram: "https://www.instagram.com/misiongrado._/",
 } as const;
+
+export const CONTACT_PREFERENCES = [
+  { value: "cualquiera", label: "Cualquiera" },
+  { value: "rodrigo", label: "Rodrigo Quezada" },
+  { value: "ignacia", label: "María Ignacia Suárez" },
+] as const;
 
 export const TESTIMONIALS = [
   {
