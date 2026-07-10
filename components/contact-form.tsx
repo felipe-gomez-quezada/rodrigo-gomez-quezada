@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { Suspense, useActionState, useEffect, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
@@ -65,7 +66,18 @@ function inputClassName(hasError: boolean) {
     : `${inputBaseClass} border-navy/20 focus:border-gold focus:ring-gold/20`;
 }
 
-export function ContactForm() {
+const VALID_PREFERENCES = new Set(
+  CONTACT_PREFERENCES.map((option) => option.value),
+);
+
+type ContactPreference = (typeof CONTACT_PREFERENCES)[number]["value"];
+
+function isContactPreference(value: string): value is ContactPreference {
+  return VALID_PREFERENCES.has(value as ContactPreference);
+}
+
+function ContactFormContent() {
+  const searchParams = useSearchParams();
   const [state, formAction, isActionPending] = useActionState(
     submitContactRequest,
     initialContactFormState,
@@ -77,6 +89,7 @@ export function ContactForm() {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ContactFormInput, unknown, ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -90,6 +103,13 @@ export function ContactForm() {
       preferencia_contacto: "cualquiera",
     },
   });
+
+  useEffect(() => {
+    const preferencia = searchParams.get("preferencia");
+    if (preferencia && isContactPreference(preferencia)) {
+      setValue("preferencia_contacto", preferencia);
+    }
+  }, [searchParams, setValue]);
 
   const getFieldError = (field: keyof ContactFormInput) =>
     errors[field]?.message ?? state.fieldErrors?.[field];
@@ -255,5 +275,32 @@ export function ContactForm() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ContactFormFallback() {
+  return (
+    <section
+      id="contacto"
+      className="bg-gradient-to-br from-navy via-navy-light to-navy py-16 md:py-24"
+    >
+      <div className="mx-auto max-w-2xl px-6 md:px-8">
+        <div className="mb-8 text-center">
+          <h2 className="font-serif text-3xl text-cream md:text-4xl">
+            Contáctanos
+          </h2>
+          <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
+        </div>
+        <div className="h-96 rounded-xl bg-white/90 shadow-2xl shadow-navy/20" />
+      </div>
+    </section>
+  );
+}
+
+export function ContactForm() {
+  return (
+    <Suspense fallback={<ContactFormFallback />}>
+      <ContactFormContent />
+    </Suspense>
   );
 }
