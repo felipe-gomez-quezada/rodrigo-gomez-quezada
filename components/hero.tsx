@@ -26,15 +26,15 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-4xl px-6 text-center md:px-8">
         <span className="inline-block font-serif text-sm uppercase tracking-[0.3em] text-gold">
-          Quezada &amp; Suárez Abogados
+          Quezada y Suárez Abogados
         </span>
         <h1 className="mt-6 font-serif text-4xl leading-tight text-cream md:text-5xl lg:text-6xl">
           Asesoría legal especializada y representación civil
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-cream/70">
-          Rodrigo Quezada y María Ignacia Suárez, abogados especializados en
-          Derecho Civil, con representación en la Región del Maule y
-          asesorías online a todo Chile.
+          Rodrigo Quezada, especialista en Derecho Civil, y María Ignacia Suárez,
+          en Derecho Médico y Responsabilidad Civil, con representación en la
+          Región del Maule y asesorías online a todo Chile.
         </p>
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <a

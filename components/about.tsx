@@ -11,9 +11,9 @@ export function About() {
           </h2>
           <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
           <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-navy/70">
-            Somos un estudio de abogados especializados en Derecho Civil,
-            con práctica en la Región del Maule y asesorías online disponibles
-            para clientes en todo Chile.
+            Somos un estudio de abogados con especialización en Derecho Civil y
+            Derecho Médico, con práctica en la Región del Maule y asesorías
+            online disponibles para clientes en todo Chile.
           </p>
         </div>
 
