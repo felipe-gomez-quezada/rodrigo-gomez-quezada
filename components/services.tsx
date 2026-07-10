@@ -14,9 +14,9 @@ export function Services() {
           <h2 className="font-serif text-3xl text-navy md:text-4xl">Servicios</h2>
           <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
           <p className="mx-auto mt-4 max-w-2xl text-navy/70">
-            Asesoría jurídica y representación civil adaptada a tus necesidades,
-            con atención presencial en la Región del Maule y consultas online en
-            todo Chile.
+            Nuestra asesoría jurídica y representación civil se adapta a tus
+            necesidades, con atención presencial en la Región del Maule y
+            consultas online en todo Chile.
           </p>
         </div>
 
