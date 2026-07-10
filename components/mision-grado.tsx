@@ -9,7 +9,7 @@ export function MisionGrado() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="space-y-5">
             <p className="text-sm font-semibold uppercase tracking-widest text-gold">
-              Proyecto académico
+              Un proyecto de Rodrigo Quezada
             </p>
             <h2 className="font-serif text-2xl md:text-3xl">
               Misión Grado

@@ -13,9 +13,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Rodrigo Quezada | Abogado — Derecho Civil",
+  title: "Quezada y Suárez Abogados — Derecho Civil",
   description:
-    "Asesoría legal especializada y representación civil en la Región del Maule. Consultas online a todo Chile. Abogado con 5 años de experiencia en Derecho Civil.",
+    "Asesoría legal especializada y representación civil en la Región del Maule. Consultas online a todo Chile. Estudio de abogados especializados en Derecho Civil.",
 };
 
 export default function RootLayout({

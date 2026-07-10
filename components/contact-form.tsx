@@ -1,11 +1,13 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { Suspense, useActionState, useEffect, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
 import { submitContactRequest } from "@/app/actions";
 import { PhoneInputField } from "@/components/phone-input-field";
+import { CONTACT_PREFERENCES } from "@/lib/constants";
 import {
   contactSchema,
   initialContactFormState,
@@ -18,7 +20,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
     >
       Enviar &gt;
     </button>
@@ -64,7 +66,18 @@ function inputClassName(hasError: boolean) {
     : `${inputBaseClass} border-navy/20 focus:border-gold focus:ring-gold/20`;
 }
 
-export function ContactForm() {
+const VALID_PREFERENCES = new Set(
+  CONTACT_PREFERENCES.map((option) => option.value),
+);
+
+type ContactPreference = (typeof CONTACT_PREFERENCES)[number]["value"];
+
+function isContactPreference(value: string): value is ContactPreference {
+  return VALID_PREFERENCES.has(value as ContactPreference);
+}
+
+function ContactFormContent() {
+  const searchParams = useSearchParams();
   const [state, formAction, isActionPending] = useActionState(
     submitContactRequest,
     initialContactFormState,
@@ -76,6 +89,7 @@ export function ContactForm() {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<ContactFormInput, unknown, ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -86,8 +100,16 @@ export function ContactForm() {
       telefono: undefined,
       email: "",
       mensaje: "",
+      preferencia_contacto: "cualquiera",
     },
   });
+
+  useEffect(() => {
+    const preferencia = searchParams.get("preferencia");
+    if (preferencia && isContactPreference(preferencia)) {
+      setValue("preferencia_contacto", preferencia);
+    }
+  }, [searchParams, setValue]);
 
   const getFieldError = (field: keyof ContactFormInput) =>
     errors[field]?.message ?? state.fieldErrors?.[field];
@@ -98,6 +120,10 @@ export function ContactForm() {
     formData.append("telefono", data.telefono);
     formData.append("email", data.email);
     formData.append("mensaje", data.mensaje ?? "");
+    formData.append(
+      "preferencia_contacto",
+      data.preferencia_contacto ?? "cualquiera",
+    );
 
     startTransition(() => {
       formAction(formData);
@@ -112,11 +138,11 @@ export function ContactForm() {
       <div className="mx-auto max-w-2xl px-6 md:px-8">
         <div className="mb-8 text-center">
           <h2 className="font-serif text-3xl text-cream md:text-4xl">
-            Contáctame
+            Contáctanos
           </h2>
           <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
           <p className="mx-auto mt-4 max-w-xl text-cream/80">
-            Soy especialista en Derecho Civil, Litigios y Herencias. ¡Solicita
+            Somos especialistas en Derecho Civil, Litigios y Herencias. ¡Solicita
             tu asesoría!
           </p>
         </div>
@@ -141,16 +167,14 @@ export function ContactForm() {
                 y a tu correo{" "}
                 <span className="font-semibold">{state.submitted.email}</span>.
               </p>
-              <p>
-                Me pondré en contacto contigo a la brevedad.
-              </p>
+              <p>Nos pondremos en contacto contigo a la brevedad.</p>
             </div>
           ) : state.success ? (
             <div
               role="status"
               className="rounded-lg border border-gold/30 bg-gold/5 px-4 py-3 text-sm text-navy"
             >
-              Tu mensaje fue enviado correctamente. Me pondré en contacto
+              Tu mensaje fue enviado correctamente. Nos pondremos en contacto
               contigo a la brevedad.
             </div>
           ) : (
@@ -210,6 +234,26 @@ export function ContactForm() {
                 </FormField>
 
                 <FormField
+                  id="preferencia_contacto"
+                  label="¿Con quién prefieres hablar?"
+                  error={getFieldError("preferencia_contacto")}
+                >
+                  <select
+                    id="preferencia_contacto"
+                    className={inputClassName(
+                      Boolean(getFieldError("preferencia_contacto")),
+                    )}
+                    {...register("preferencia_contacto")}
+                  >
+                    {CONTACT_PREFERENCES.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </FormField>
+
+                <FormField
                   id="mensaje"
                   label="Mensaje"
                   error={getFieldError("mensaje")}
@@ -231,5 +275,32 @@ export function ContactForm() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ContactFormFallback() {
+  return (
+    <section
+      id="contacto"
+      className="bg-gradient-to-br from-navy via-navy-light to-navy py-16 md:py-24"
+    >
+      <div className="mx-auto max-w-2xl px-6 md:px-8">
+        <div className="mb-8 text-center">
+          <h2 className="font-serif text-3xl text-cream md:text-4xl">
+            Contáctanos
+          </h2>
+          <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
+        </div>
+        <div className="h-96 rounded-xl bg-white/90 shadow-2xl shadow-navy/20" />
+      </div>
+    </section>
+  );
+}
+
+export function ContactForm() {
+  return (
+    <Suspense fallback={<ContactFormFallback />}>
+      <ContactFormContent />
+    </Suspense>
   );
 }

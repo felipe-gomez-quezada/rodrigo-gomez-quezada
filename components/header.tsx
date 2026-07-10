@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { NAV_LINKS } from "@/lib/constants";
+import { CONTACT_PREFERENCES, NAV_LINKS } from "@/lib/constants";
+
+const linkClassName =
+  "text-sm font-medium text-navy/80 transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-sm";
+
+const ctaClassName =
+  "rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2";
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,33 +20,26 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-8">
         <a
           href="#inicio"
-          className="font-serif text-base font-semibold text-navy md:text-lg"
+          className="font-serif text-sm font-semibold leading-tight text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-sm md:text-lg"
         >
-          Rodrigo Quezada{" "}
-          <span className="text-gold">| Abogado</span>
+          <span className="block sm:inline">Quezada y Suárez</span>{" "}
+          <span className="block sm:inline">Abogados</span>
         </a>
 
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-navy/80 transition-colors hover:text-gold"
-            >
+            <a key={link.href} href={link.href} className={linkClassName}>
               {link.label}
             </a>
           ))}
-          <a
-            href="#contacto"
-            className="rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
-          >
-            Cuéntame tu Caso
+          <a href="#contacto" className={ctaClassName}>
+            Cuéntanos tu Caso
           </a>
         </nav>
 
         <button
           type="button"
-          className="rounded-md p-2 text-navy lg:hidden"
+          className="rounded-md p-2 text-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 lg:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
           aria-expanded={mobileOpen}
@@ -57,19 +56,15 @@ export function Header() {
                 <a
                   href={link.href}
                   onClick={closeMobile}
-                  className="block text-base font-medium text-navy/80 transition-colors hover:text-gold"
+                  className="block text-base font-medium text-navy/80 transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-sm"
                 >
                   {link.label}
                 </a>
               </li>
             ))}
             <li>
-              <a
-                href="#contacto"
-                onClick={closeMobile}
-                className="inline-block rounded-md bg-gold px-5 py-2.5 text-sm font-semibold text-navy transition-colors hover:bg-gold-light"
-              >
-                Cuéntame tu Caso
+              <a href="#contacto" onClick={closeMobile} className={ctaClassName}>
+                Cuéntanos tu Caso
               </a>
             </li>
           </ul>

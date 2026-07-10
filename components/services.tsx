@@ -1,4 +1,4 @@
-import { BookOpen, Building2, CheckCircle2, FileText, Video } from "lucide-react";
+import { Building2, CheckCircle2, Video } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 
 const iconMap = {
@@ -14,28 +14,25 @@ export function Services() {
           <h2 className="font-serif text-3xl text-navy md:text-4xl">Servicios</h2>
           <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
           <p className="mx-auto mt-4 max-w-2xl text-navy/70">
-            Asesoría jurídica y representación civil adaptada a tus necesidades,
-            con atención presencial en la Región del Maule y consultas online en
-            todo Chile.
+            Nuestra asesoría jurídica y representación civil se adapta a tus
+            necesidades, con atención presencial en la Región del Maule y
+            consultas online en todo Chile.
           </p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
           {SERVICES.map((service) => {
             const Icon = iconMap[service.icon];
-            const SecondaryIcon =
-              service.icon === "video" ? BookOpen : FileText;
 
             return (
               <div
                 key={service.title}
                 className="group rounded-lg border border-navy/10 bg-beige p-8 shadow-sm transition-shadow hover:shadow-md"
               >
-                <div className="mb-6 flex items-center gap-3">
+                <div className="mb-6">
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-navy text-gold">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <SecondaryIcon className="h-5 w-5 text-gold/60" />
                 </div>
 
                 <h3 className="font-serif text-xl font-semibold text-navy">

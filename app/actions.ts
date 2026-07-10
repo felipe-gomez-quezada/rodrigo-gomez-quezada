@@ -5,6 +5,7 @@ import {
   contactSchema,
   type ContactFormState,
 } from "@/lib/contact-schema";
+import { CONTACT_PREFERENCES, FIRM_NAME } from "@/lib/constants";
 import { createServerSupabaseClient } from "@/lib/supabase";
 
 const CONSULTA_RECIBIDA_TEMPLATE_ID = "2807201a-642f-43e7-9921-8e7c4c32abee";
@@ -30,7 +31,8 @@ function getFieldErrors(
       field === "nombre" ||
       field === "telefono" ||
       field === "email" ||
-      field === "mensaje"
+      field === "mensaje" ||
+      field === "preferencia_contacto"
     ) {
       fieldErrors[field] = issue.message;
     }
@@ -38,16 +40,24 @@ function getFieldErrors(
   return fieldErrors;
 }
 
+function getPreferenciaLabel(value: string) {
+  return (
+    CONTACT_PREFERENCES.find((option) => option.value === value)?.label ?? value
+  );
+}
+
 async function sendContactNotification({
   nombre,
   telefono,
   email,
   mensaje,
+  preferencia_contacto,
 }: {
   nombre: string;
   telefono: string;
   email: string;
   mensaje?: string;
+  preferencia_contacto: string;
 }) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.RESEND_FROM_EMAIL;
@@ -74,6 +84,7 @@ async function sendContactNotification({
   const sitioWeb =
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://rodrigoquezada.cl";
   const mensajeTexto = mensaje?.trim() || "Sin mensaje";
+  const preferenciaLabel = getPreferenciaLabel(preferencia_contacto);
   const templateVariables = {
     nombre,
     telefono,
@@ -95,15 +106,16 @@ async function sendContactNotification({
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;color:#0b1d3a;max-width:560px;margin:0 auto;">
         <div style="background-color:#0b1d3a;padding:24px;text-align:center;border-radius:8px 8px 0 0;">
-          <div style="width:56px;height:56px;background-color:#c4a35a;border-radius:50%;margin:0 auto;line-height:56px;font-family:Georgia,serif;font-weight:bold;color:#0b1d3a;">RQ</div>
-          <p style="margin:12px 0 0;font-family:Georgia,serif;font-size:20px;color:#fdfcfa;">Rodrigo Quezada</p>
-          <p style="margin:4px 0 0;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#c4a35a;">Abogado</p>
+          <div style="width:56px;height:56px;background-color:#c4a35a;border-radius:50%;margin:0 auto;line-height:56px;font-family:Georgia,serif;font-weight:bold;color:#0b1d3a;">QyS</div>
+          <p style="margin:12px 0 0;font-family:Georgia,serif;font-size:20px;color:#fdfcfa;">${escapeHtml(FIRM_NAME)}</p>
+          <p style="margin:4px 0 0;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#c4a35a;">Abogados</p>
         </div>
         <div style="background-color:#fdfcfa;padding:24px;border:1px solid rgba(11,29,58,0.08);border-top:none;border-radius:0 0 8px 8px;">
           <h2 style="margin:0 0 16px;font-family:Georgia,serif;font-size:22px;">Nuevo mensaje de contacto</h2>
           <p style="margin:0 0 8px;"><strong>Nombre:</strong> ${escapeHtml(nombre)}</p>
           <p style="margin:0 0 8px;"><strong>Teléfono:</strong> ${escapeHtml(telefono)}</p>
           <p style="margin:0 0 8px;"><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p style="margin:0 0 8px;"><strong>Preferencia de contacto:</strong> ${escapeHtml(preferenciaLabel)}</p>
           <p style="margin:0 0 4px;"><strong>Mensaje:</strong></p>
           <p style="margin:0 0 16px;white-space:pre-wrap;">${escapeHtml(mensajeTexto)}</p>
           <hr style="border:none;border-top:1px solid rgba(11,29,58,0.1);margin:16px 0;" />
@@ -117,7 +129,7 @@ async function sendContactNotification({
     ? resend.emails.send({
         from: fromEmail,
         to: email,
-        subject: "Confirmación de consulta — Rodrigo Quezada",
+        subject: `Confirmación de consulta — ${FIRM_NAME}`,
         template: {
           id: CONSULTA_RECIBIDA_TEMPLATE_ID,
           variables: templateVariables,
@@ -176,6 +188,7 @@ export async function submitContactRequest(
     telefono: String(formData.get("telefono") ?? ""),
     email: String(formData.get("email") ?? ""),
     mensaje: String(formData.get("mensaje") ?? ""),
+    preferencia_contacto: String(formData.get("preferencia_contacto") ?? "cualquiera"),
   };
 
   const parsed = contactSchema.safeParse(raw);
@@ -187,7 +200,7 @@ export async function submitContactRequest(
     };
   }
 
-  const { nombre, telefono, email, mensaje } = parsed.data;
+  const { nombre, telefono, email, mensaje, preferencia_contacto } = parsed.data;
   const supabase = createServerSupabaseClient();
 
   let contactId: string;
@@ -199,6 +212,7 @@ export async function submitContactRequest(
         telefono,
         email,
         mensaje: mensaje || null,
+        preferencia_contacto,
         correo_enviado: false,
       })
       .select("id")
@@ -228,6 +242,7 @@ export async function submitContactRequest(
     telefono,
     email,
     mensaje,
+    preferencia_contacto,
   });
 
   if (emailResult.sent) {

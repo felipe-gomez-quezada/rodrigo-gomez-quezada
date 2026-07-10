@@ -1,5 +1,14 @@
 import { InstagramIcon, LinkedInIcon } from "@/components/social-icons";
-import { NAV_LINKS, SOCIAL_LINKS } from "@/lib/constants";
+import {
+  FIRM_NAME,
+  FIRM_TAGLINE,
+  NAV_LINKS,
+  PARTNERS,
+  SOCIAL_LINKS,
+} from "@/lib/constants";
+
+const footerLinkClassName =
+  "text-sm text-cream/70 transition-colors hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy rounded-sm";
 
 export function Footer() {
   return (
@@ -8,11 +17,24 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <p className="font-serif text-xl font-semibold text-gold">
-              Rodrigo Quezada
+              {FIRM_NAME}
             </p>
-            <p className="mt-2 text-sm text-cream/70">
-              Abogado · Derecho Civil · Talca, Región del Maule
-            </p>
+            <p className="mt-2 text-sm text-cream/70">{FIRM_TAGLINE}</p>
+            <ul className="mt-4 space-y-2">
+              {PARTNERS.map((partner) => (
+                <li key={partner.id}>
+                  <a
+                    href={partner.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-2 ${footerLinkClassName}`}
+                  >
+                    <LinkedInIcon className="h-4 w-4 shrink-0" />
+                    {partner.shortName}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div>
@@ -20,10 +42,7 @@ export function Footer() {
             <ul className="space-y-2">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-cream/70 transition-colors hover:text-gold"
-                  >
+                  <a href={link.href} className={footerLinkClassName}>
                     {link.label}
                   </a>
                 </li>
@@ -35,19 +54,10 @@ export function Footer() {
             <h3 className="mb-4 font-serif text-lg text-gold">Redes</h3>
             <div className="flex flex-col gap-3">
               <a
-                href={SOCIAL_LINKS.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-cream/70 transition-colors hover:text-gold"
-              >
-                <LinkedInIcon className="h-5 w-5" />
-                LinkedIn
-              </a>
-              <a
                 href={SOCIAL_LINKS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-cream/70 transition-colors hover:text-gold"
+                className={`inline-flex items-center gap-2 ${footerLinkClassName}`}
               >
                 <InstagramIcon className="h-5 w-5" />
                 @misiongrado._
@@ -58,7 +68,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-cream/10 pt-8 text-center">
           <p className="text-sm text-cream/60">
-            © 2026 Rodrigo Quezada. Todos los derechos reservados.
+            © 2026 {FIRM_NAME}. Todos los derechos reservados.
           </p>
         </div>
       </div>
