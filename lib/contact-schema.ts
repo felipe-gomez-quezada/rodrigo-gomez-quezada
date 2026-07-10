@@ -46,6 +46,10 @@ export const contactSchema = z.object({
     .min(1, REQUIRED_MESSAGE)
     .email("Por favor, introduce un correo electrónico válido"),
   mensaje: z.string().trim().optional(),
+  preferencia_contacto: z
+    .enum(["rodrigo", "ignacia", "cualquiera"])
+    .optional()
+    .default("cualquiera"),
 });
 
 export type ContactFormInput = z.input<typeof contactSchema>;

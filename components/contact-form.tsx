@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
 import { submitContactRequest } from "@/app/actions";
 import { PhoneInputField } from "@/components/phone-input-field";
+import { CONTACT_PREFERENCES } from "@/lib/constants";
 import {
   contactSchema,
   initialContactFormState,
@@ -18,7 +19,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-60"
+      className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
     >
       Enviar &gt;
     </button>
@@ -86,6 +87,7 @@ export function ContactForm() {
       telefono: undefined,
       email: "",
       mensaje: "",
+      preferencia_contacto: "cualquiera",
     },
   });
 
@@ -98,6 +100,10 @@ export function ContactForm() {
     formData.append("telefono", data.telefono);
     formData.append("email", data.email);
     formData.append("mensaje", data.mensaje ?? "");
+    formData.append(
+      "preferencia_contacto",
+      data.preferencia_contacto ?? "cualquiera",
+    );
 
     startTransition(() => {
       formAction(formData);
@@ -112,11 +118,11 @@ export function ContactForm() {
       <div className="mx-auto max-w-2xl px-6 md:px-8">
         <div className="mb-8 text-center">
           <h2 className="font-serif text-3xl text-cream md:text-4xl">
-            Contáctame
+            Contáctanos
           </h2>
           <div className="mx-auto mt-3 h-1 w-16 bg-gold" />
           <p className="mx-auto mt-4 max-w-xl text-cream/80">
-            Soy especialista en Derecho Civil, Litigios y Herencias. ¡Solicita
+            Somos especialistas en Derecho Civil, Litigios y Herencias. ¡Solicita
             tu asesoría!
           </p>
         </div>
@@ -141,16 +147,14 @@ export function ContactForm() {
                 y a tu correo{" "}
                 <span className="font-semibold">{state.submitted.email}</span>.
               </p>
-              <p>
-                Me pondré en contacto contigo a la brevedad.
-              </p>
+              <p>Nos pondremos en contacto contigo a la brevedad.</p>
             </div>
           ) : state.success ? (
             <div
               role="status"
               className="rounded-lg border border-gold/30 bg-gold/5 px-4 py-3 text-sm text-navy"
             >
-              Tu mensaje fue enviado correctamente. Me pondré en contacto
+              Tu mensaje fue enviado correctamente. Nos pondremos en contacto
               contigo a la brevedad.
             </div>
           ) : (
@@ -207,6 +211,26 @@ export function ContactForm() {
                     className={inputClassName(Boolean(getFieldError("email")))}
                     {...register("email")}
                   />
+                </FormField>
+
+                <FormField
+                  id="preferencia_contacto"
+                  label="¿Con quién prefieres hablar?"
+                  error={getFieldError("preferencia_contacto")}
+                >
+                  <select
+                    id="preferencia_contacto"
+                    className={inputClassName(
+                      Boolean(getFieldError("preferencia_contacto")),
+                    )}
+                    {...register("preferencia_contacto")}
+                  >
+                    {CONTACT_PREFERENCES.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </FormField>
 
                 <FormField
