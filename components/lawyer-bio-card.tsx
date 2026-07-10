@@ -10,7 +10,7 @@ export function LawyerBioCard({ partner }: LawyerBioCardProps) {
   return (
     <article className="relative flex flex-col gap-4 rounded-lg border border-navy/10 bg-cream p-6 shadow-sm">
       <div className="relative">
-        <span className="absolute top-3 left-3 z-10 rounded-sm border border-navy/10 bg-cream px-2.5 py-1 font-serif text-[0.65rem] font-medium uppercase tracking-[0.2em] text-navy shadow-sm">
+        <span className="absolute top-3 left-3 z-10 rounded-sm border border-navy/10 bg-cream px-2.5 py-1 font-serif text-[0.65rem] font-bold uppercase tracking-[0.2em] text-navy shadow-sm">
           {partner.associateLabel}
         </span>
 
@@ -33,7 +33,7 @@ export function LawyerBioCard({ partner }: LawyerBioCardProps) {
           decoration="none"
         />
 
-        <div className="absolute bottom-3 left-3 z-10">
+        <div className="group/utalca absolute bottom-3 left-3 z-10">
           <div
             className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/30 bg-cream/95 p-1.5 shadow-sm backdrop-blur-sm"
             title={partner.university}
@@ -47,6 +47,12 @@ export function LawyerBioCard({ partner }: LawyerBioCardProps) {
               aria-hidden
             />
           </div>
+          <span
+            className="pointer-events-none absolute bottom-full left-1/2 mb-2 w-max max-w-[12rem] -translate-x-1/2 rounded-md bg-navy px-2.5 py-1.5 text-center text-xs text-cream opacity-0 shadow-lg transition-opacity duration-200 group-hover/utalca:opacity-100"
+            role="tooltip"
+          >
+            {partner.university}
+          </span>
         </div>
       </div>
 
