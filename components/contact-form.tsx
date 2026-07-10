@@ -18,7 +18,7 @@ function SubmitButton({ disabled }: { disabled: boolean }) {
     <button
       type="submit"
       disabled={disabled}
-      className="inline-flex w-full items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+      className="inline-flex items-center justify-center rounded-md bg-gold px-6 py-3 text-sm font-semibold text-navy transition-all hover:brightness-95 active:brightness-90 disabled:cursor-not-allowed disabled:opacity-60"
     >
       Enviar &gt;
     </button>
@@ -222,7 +222,9 @@ export function ContactForm() {
                   />
                 </FormField>
 
-                <SubmitButton disabled={isPending} />
+                <div className="flex justify-end pt-1">
+                  <SubmitButton disabled={isPending} />
+                </div>
               </form>
             </>
           )}

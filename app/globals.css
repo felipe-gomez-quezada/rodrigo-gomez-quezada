@@ -42,19 +42,19 @@
     --PhoneInputCountrySelectArrow-color--focus: var(--gold);
     --PhoneInputCountryFlag-borderColor--focus: var(--gold);
 
-    @apply flex w-full items-stretch overflow-hidden rounded-md border border-navy/20 bg-white transition-colors;
+    @apply flex w-full items-stretch overflow-hidden rounded-md border border-navy/20 bg-white outline outline-1 outline-transparent transition-[border-color,box-shadow,outline-color];
   }
 
   .phone-input:focus-within {
-    @apply border-gold ring-2 ring-gold/20;
+    @apply border-gold outline-gold/40 ring-2 ring-gold/20;
   }
 
   .phone-input--error {
-    @apply border-red-500;
+    @apply border-red-500 outline-red-500/30;
   }
 
   .phone-input--error:focus-within {
-    @apply border-red-500 ring-2 ring-red-500/20;
+    @apply border-red-500 outline-red-500/40 ring-2 ring-red-500/20;
   }
 
   .phone-input .PhoneInputCountry {
